@@ -56,31 +56,36 @@
   <button onclick="sendMessage()">Send</button>
   <div id="response"></div>
 
-  <script>
-    async function sendMessage() {
-      const message = document.getElementById("userInput").value.trim();
-      console.log("📨 Message being sent:", message);
-      const responseDiv = document.getElementById("response");
+<script>
+  async function sendMessage() {
+    const message = document.getElementById("userInput").value.trim();
+    const responseDiv = document.getElementById("response");
 
-      if (!message) return;
+    if (!message) return;
 
-      responseDiv.innerText = "⏳ AlAi is thinking...";
+    responseDiv.innerText = "⏳ AlAi is thinking...";
 
-      try {
-        const res = await fetch("https://eo2tz1ku41wzcpq.m.pipedream.net", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message }),
-        });
+    try {
+      const res = await fetch("https://eo2tz1ku41wzcpq.m.pipedream.net", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+      });
 
-        const data = await res.json();
-        console.log("🐛 Raw response from backend:", data);
-        responseDiv.innerText = "🧠 AlAi: " + (data.reply || "Sorry, no response.");
-      } catch (error) {
-        console.error("Frontend error:", error);
-        responseDiv.innerText = "⚠️ Something went wrong. Please try again.";
+      const data = await res.json();
+      console.log("🧠 Raw response from backend:", data);
+
+      if (data && typeof data.reply === "string") {
+        responseDiv.innerText = "🧠 AlAi: " + data.reply;
+      } else {
+        responseDiv.innerText = "⚠️ Unexpected response. Try again.";
       }
+    } catch (error) {
+      console.error("🚨 Frontend error:", error);
+      responseDiv.innerText = "⚠️ Something went wrong. Please try again.";
     }
-  </script>
+  }
+</script>
 </body>
 </html>
+like this?
