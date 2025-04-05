@@ -9,44 +9,64 @@
       font-family: Arial, sans-serif;
       background: #f8fafd;
       margin: 0;
-      padding: 20px;
+      padding: 40px 20px;
       max-width: 600px;
       margin: auto;
+      color: #333;
     }
+
     h1 {
       text-align: center;
-      color: #3a3a3a;
+      color: #333;
+      margin-bottom: 30px;
     }
+
     textarea {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       font-size: 16px;
       border-radius: 8px;
       border: 1px solid #ccc;
       resize: vertical;
+      transition: border-color 0.3s;
     }
+
+    textarea:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+
     button {
-      margin-top: 10px;
+      margin-top: 15px;
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       background-color: #4CAF50;
       color: white;
       font-size: 16px;
+      font-weight: bold;
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
     button:disabled {
       background-color: #aaa;
       cursor: not-allowed;
     }
+
     #response {
-      margin-top: 20px;
+      margin-top: 25px;
       background: #fff;
-      padding: 15px;
+      padding: 18px;
       border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       white-space: pre-wrap;
+      font-size: 15px;
     }
   </style>
 </head>
@@ -72,6 +92,11 @@
         body: JSON.stringify({ message }),
       });
 
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Invalid JSON response");
+      }
+
       const data = await res.json();
       console.log("🧠 Raw response from backend:", data);
 
@@ -88,4 +113,3 @@
 </script>
 </body>
 </html>
-like this?
