@@ -59,6 +59,7 @@
   <script>
     async function sendMessage() {
       const message = document.getElementById("userInput").value.trim();
+      console.log("📨 Message being sent:", message);
       const responseDiv = document.getElementById("response");
 
       if (!message) return;
